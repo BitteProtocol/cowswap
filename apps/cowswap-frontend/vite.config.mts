@@ -121,6 +121,39 @@ export default defineConfig(({ mode }) => {
           target: 'http://localhost:4317',
           changeOrigin: true,
         },
+        '/api/bitte/chat': {
+          target: 'https://ai-runtime-446257178793.europe-west1.run.app',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/bitte/, ''),
+          configure: (proxy, options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              // Add authentication header
+              const bitteApiKey = process.env.BITTE_API_KEY || process.env.VITE_BITTE_API_KEY;
+              if (bitteApiKey) {
+                proxyReq.setHeader('Authorization', `Bearer ${bitteApiKey}`);
+              }
+              
+              // Ensure content-type is set for POST requests
+              if (req.method === 'POST') {
+                proxyReq.setHeader('Content-Type', 'application/json');
+              }
+            });
+          },
+        },
+        '/api/bitte/history': {
+          target: 'https://ai-runtime-446257178793.europe-west1.run.app',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/bitte/, ''),
+          configure: (proxy, options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              // Add authentication header
+              const bitteApiKey = process.env.BITTE_API_KEY || process.env.VITE_BITTE_API_KEY;
+              if (bitteApiKey) {
+                proxyReq.setHeader('Authorization', `Bearer ${bitteApiKey}`);
+              }
+            });
+          },
+        },
       },
     },
 
@@ -132,7 +165,22 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         'node-fetch': 'isomorphic-fetch',
+        '@noble/hashes/legacy': path.resolve(__dirname, '../../node_modules/@noble/hashes/esm/legacy.js'),
+        '@noble/hashes/hmac': path.resolve(__dirname, '../../node_modules/@noble/hashes/esm/hmac.js'),
+        '@noble/hashes/sha2': path.resolve(__dirname, '../../node_modules/@noble/hashes/esm/sha2.js'),
+        '@noble/hashes/utils': path.resolve(__dirname, '../../node_modules/@noble/hashes/esm/utils.js'),
       },
+    },
+
+    optimizeDeps: {
+      include: [
+        '@noble/hashes/legacy',
+        '@noble/hashes/hmac',
+        '@noble/hashes/sha2',
+        '@noble/hashes/utils',
+        '@scure/bip32',
+        '@scure/bip39'
+      ],
     },
 
     build: {
@@ -162,14 +210,5 @@ export default defineConfig(({ mode }) => {
     },
 
     plugins,
-
-    // Uncomment this if you are using workers.
-    // worker: {
-    //  plugins: [
-    //    viteTsConfigPaths({
-    //      root: '../../',
-    //    }),
-    //  ],
-    // },
   }
 })
