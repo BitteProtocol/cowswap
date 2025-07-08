@@ -58,7 +58,7 @@ export default defineConfig(({ mode }) => {
       filename: 'service-worker.ts',
       minify: true,
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 7000000, // 7mb
+        maximumFileSizeToCacheInBytes: 15000000, // 15mb - increased to handle large bundles
         globPatterns: ['**/*.{js,css,html,png,jpg,svg,json,woff,woff2,md}'],
       },
     }),
