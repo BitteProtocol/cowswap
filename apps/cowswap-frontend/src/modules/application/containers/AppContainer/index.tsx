@@ -34,7 +34,7 @@ interface AppContainerProps {
   children: ReactNode | ReactNode[]
 }
 
-function BitteChat({ account }: { account?: string }) : ReactNode {
+function BitteChat({ account }: { account?: string }): ReactNode {
   return (
     <BitteWidgetChat
       agentId="near-cow-agent-git-dev-bitteprotocol.vercel.app"
@@ -60,7 +60,10 @@ function BitteChat({ account }: { account?: string }) : ReactNode {
         },
       }}
       widget={{
-        triggerButtonType: 'dark',
+        triggerButtonStyles: {
+          backgroundColor: '#84D7FB',
+          logoColor: '#000000',
+        },
         widgetWelcomePrompts: {
           questions: [
             'What is CoW Swap?',
