@@ -60,6 +60,7 @@ function BitteChat({ account }: { account?: string }) : ReactNode {
         },
       }}
       widget={{
+        triggerButtonType: 'dark',
         widgetWelcomePrompts: {
           questions: [
             'What is CoW Swap?',
