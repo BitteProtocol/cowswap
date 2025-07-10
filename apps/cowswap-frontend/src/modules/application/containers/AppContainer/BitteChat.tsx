@@ -71,7 +71,7 @@ export function BitteChat({ account }: BitteChatProps): ReactNode {
 
   return (
     <BitteWidgetChat
-      agentId="near-cow-agent-git-dev-bitteprotocol.vercel.app"
+      agentId="near-cow-agent-git-staging-bitteprotocol.vercel.app"
       options={{
         agentName: 'CoW Swap Assistant',
         agentImage: '/favicon-dark-mode.png',
