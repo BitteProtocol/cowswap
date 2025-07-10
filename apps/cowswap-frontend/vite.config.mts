@@ -60,6 +60,11 @@ export default defineConfig(({ mode }) => {
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000, // 15mb - increased to handle large bundles
         globPatterns: ['**/*.{js,css,html,png,jpg,svg,json,woff,woff2,md}'],
+        rollupFormat: 'es',
+        injectionPoint: undefined,
+      },
+      rollupOptions: {
+        external: ['@noble/hashes/sha2', '@noble/hashes/hmac', '@noble/hashes/utils', '@noble/hashes/legacy'],
       },
     }),
     robotsPlugin({
@@ -179,7 +184,8 @@ export default defineConfig(({ mode }) => {
         '@noble/hashes/sha2',
         '@noble/hashes/utils',
         '@scure/bip32',
-        '@scure/bip39'
+        '@scure/bip39',
+        'viem'
       ],
     },
 
@@ -198,7 +204,8 @@ export default defineConfig(({ mode }) => {
           },
           manualChunks(id) {
             if (id.includes('@1inch')) return '@1inch'
-            if (id.includes('@safe-global') || id.includes('viem')) return '@safe-global'
+            if (id.includes('@safe-global')) return '@safe-global'
+            if (id.includes('viem')) return 'viem'
             if (id.includes('@sentry')) return '@sentry'
             if (id.includes('@uniswap')) return '@uniswap'
             if (id.includes('crypto-es/lib')) return 'crypto-es'
