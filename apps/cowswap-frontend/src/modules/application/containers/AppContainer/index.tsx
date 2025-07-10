@@ -82,7 +82,7 @@ export function AppContainer({ children }: AppContainerProps): ReactNode {
         <styledEl.Marginer />
       </styledEl.BodyWrapper>
 
-      <BitteChat account={account} />
+      <BitteChat />
 
       {!isInjectedWidgetMode && isChristmasTheme && (
         <Snowfall
