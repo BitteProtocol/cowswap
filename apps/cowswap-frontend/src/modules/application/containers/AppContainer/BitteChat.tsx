@@ -87,7 +87,7 @@ export function BitteChat({ account }: BitteChatProps): ReactNode {
           signMessage: signMessage,
           signTypedData: signTypedData,
           hash: lastTxHash,
-          signature: parseSignature(lastSignature as `0x${string}`),
+          signature: lastSignature ? parseSignature(lastSignature as `0x${string}`) : undefined,
         },
       }}
       widget={{
