@@ -1,18 +1,20 @@
-import { ReactNode, useCallback, useState, useEffect } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 
 import { getChecksumAddressOrOriginal } from '@cowprotocol/common-utils'
+import { TypedDataTypes } from '@cowprotocol/contracts/lib/esm/types/ethers'
 import { useSwitchNetwork, useWalletInfo } from '@cowprotocol/wallet'
 import { useWalletProvider } from '@cowprotocol/wallet-provider'
 
 import { BitteWidgetChat } from '@bitte-ai/chat'
 import '@bitte-ai/chat/styles.css'
+import { TypedDataDomain } from 'viem'
 
+// eslint-disable-next-line max-lines-per-function
 export function BitteChat(): ReactNode {
   const { chainId, account } = useWalletInfo()
   const provider = useWalletProvider()
   const switchNetwork = useSwitchNetwork()
 
-  const [currentHash, setCurrentHash] = useState<string | undefined>()
   const [currentSignature, setCurrentSignature] = useState<string | undefined>()
 
   // Ensure address is properly checksummed for ethers.js compatibility
@@ -22,7 +24,7 @@ export function BitteChat(): ReactNode {
   useEffect(() => {
     if (!provider || !checksummedAccount) return
 
-    const validateAddress = async () => {
+    const validateAddress = async (): Promise<void> => {
       try {
         const signer = provider.getSigner()
         const signerAddress = await signer.getAddress()
@@ -50,9 +52,6 @@ export function BitteChat(): ReactNode {
       try {
         const signer = provider.getSigner()
 
-        // Get the signer's address to ensure consistency
-        const signerAddress = await signer.getAddress()
-
         // Clean the transaction object - remove 'from' field and ensure addresses are checksummed
         const cleanTransaction = {
           to: transaction.to ? getChecksumAddressOrOriginal(transaction.to) : undefined,
@@ -67,10 +66,8 @@ export function BitteChat(): ReactNode {
           Object.entries(cleanTransaction).filter(([_, value]) => value !== undefined),
         )
 
-        console.log('Sending transaction:', formattedTransaction, 'from signer:', signerAddress)
-
         const txResponse = await signer.sendTransaction(formattedTransaction)
-        setCurrentHash(txResponse.hash)
+
         return txResponse.hash
       } catch (error) {
         console.error('Transaction failed:', error)
@@ -93,11 +90,9 @@ export function BitteChat(): ReactNode {
 
       try {
         const signer = provider.getSigner()
-        const signerAddress = await signer.getAddress()
-
-        console.log('Signing message:', params.message, 'from signer:', signerAddress)
 
         const signature = await signer.signMessage(params.message)
+
         setCurrentSignature(signature)
         return signature
       } catch (error) {
@@ -118,15 +113,19 @@ export function BitteChat(): ReactNode {
 
         console.log('Signing typed data:', typedData, 'from signer:', signerAddress)
 
+        // Validate the structure before signing
+        if (!typedData.domain || !typedData.types || !typedData.message) {
+          console.error('Invalid typed data structure:', typedData)
+          throw new Error('Invalid typed data structure: missing domain, types, or value')
+        }
+
         // Type assertion needed for compatibility with ethers signer
         const signature = await signer._signTypedData(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          typedData.domain as any,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          typedData.types as any,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          typedData.value as any,
+          typedData.domain as TypedDataDomain,
+          typedData.types as TypedDataTypes,
+          typedData.message,
         )
+
         setCurrentSignature(signature)
         return signature
       } catch (error) {
@@ -140,11 +139,11 @@ export function BitteChat(): ReactNode {
   // Parse signature manually if available
   const parsedSignature = currentSignature
     ? {
-        r: currentSignature.slice(0, 66) as `0x${string}`,
-        s: ('0x' + currentSignature.slice(66, 130)) as `0x${string}`,
-        v: BigInt(parseInt(currentSignature.slice(130, 132), 16)),
-        yParity: parseInt(currentSignature.slice(130, 132), 16) === 27 ? 0 : 1,
-      }
+      r: currentSignature.slice(0, 66) as `0x${string}`,
+      s: ('0x' + currentSignature.slice(66, 130)) as `0x${string}`,
+      v: BigInt(parseInt(currentSignature.slice(130, 132), 16)),
+      yParity: parseInt(currentSignature.slice(130, 132), 16) === 27 ? 0 : 1,
+    }
     : undefined
 
   return (
@@ -169,7 +168,6 @@ export function BitteChat(): ReactNode {
           signMessage: handleSignMessage as any,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           signTypedData: handleSignTypedData as any,
-          hash: currentHash,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           signature: parsedSignature as any,
         },
