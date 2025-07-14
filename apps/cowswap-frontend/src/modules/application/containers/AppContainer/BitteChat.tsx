@@ -1,5 +1,6 @@
 import { ReactNode, useCallback, useState } from 'react'
 
+import { getChecksumAddressOrOriginal } from '@cowprotocol/common-utils'
 import { useSwitchNetwork, useWalletInfo } from '@cowprotocol/wallet'
 import { useWalletProvider } from '@cowprotocol/wallet-provider'
 
@@ -14,52 +15,69 @@ export function BitteChat(): ReactNode {
   const [currentHash, setCurrentHash] = useState<string | undefined>()
   const [currentSignature, setCurrentSignature] = useState<string | undefined>()
 
-  const handleSendTransaction = useCallback(async (transaction: { to?: string; data?: string; value?: string; gasLimit?: string }) => {
-    if (!provider) throw new Error('No provider available')
+  // Ensure address is properly checksummed for ethers.js compatibility
+  const checksummedAccount = account ? getChecksumAddressOrOriginal(account) : undefined
 
-    const signer = provider.getSigner()
-    const txResponse = await signer.sendTransaction(transaction)
-    setCurrentHash(txResponse.hash)
-    return txResponse.hash
-  }, [provider])
+  const handleSendTransaction = useCallback(
+    async (transaction: { to?: string; data?: string; value?: string; gasLimit?: string }) => {
+      if (!provider) throw new Error('No provider available')
 
-  const handleSwitchChain = useCallback(async (params: { chainId: number }) => {
-    await switchNetwork(params.chainId)
-  }, [switchNetwork])
+      const signer = provider.getSigner()
+      const txResponse = await signer.sendTransaction(transaction)
+      setCurrentHash(txResponse.hash)
+      return txResponse.hash
+    },
+    [provider],
+  )
 
-  const handleSignMessage = useCallback(async (params: { message: string }) => {
-    if (!provider) throw new Error('No provider available')
+  const handleSwitchChain = useCallback(
+    async (params: { chainId: number }) => {
+      await switchNetwork(params.chainId)
+    },
+    [switchNetwork],
+  )
 
-    const signer = provider.getSigner()
-    const signature = await signer.signMessage(params.message)
-    setCurrentSignature(signature)
-    return signature
-  }, [provider])
+  const handleSignMessage = useCallback(
+    async (params: { message: string }) => {
+      if (!provider) throw new Error('No provider available')
 
-  const handleSignTypedData = useCallback(async (typedData: Record<string, unknown>) => {
-    if (!provider) throw new Error('No provider available')
+      const signer = provider.getSigner()
+      const signature = await signer.signMessage(params.message)
+      setCurrentSignature(signature)
+      return signature
+    },
+    [provider],
+  )
 
-    const signer = provider.getSigner()
-    // Type assertion needed for compatibility with ethers signer
-    const signature = await signer._signTypedData(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      typedData.domain as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      typedData.types as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      typedData.value as any
-    )
-    setCurrentSignature(signature)
-    return signature
-  }, [provider])
+  const handleSignTypedData = useCallback(
+    async (typedData: Record<string, unknown>) => {
+      if (!provider) throw new Error('No provider available')
+
+      const signer = provider.getSigner()
+      // Type assertion needed for compatibility with ethers signer
+      const signature = await signer._signTypedData(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        typedData.domain as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        typedData.types as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        typedData.value as any,
+      )
+      setCurrentSignature(signature)
+      return signature
+    },
+    [provider],
+  )
 
   // Parse signature manually if available
-  const parsedSignature = currentSignature ? {
-    r: currentSignature.slice(0, 66) as `0x${string}`,
-    s: ('0x' + currentSignature.slice(66, 130)) as `0x${string}`,
-    v: BigInt(parseInt(currentSignature.slice(130, 132), 16)),
-    yParity: parseInt(currentSignature.slice(130, 132), 16) === 27 ? 0 : 1
-  } : undefined;
+  const parsedSignature = currentSignature
+    ? {
+        r: currentSignature.slice(0, 66) as `0x${string}`,
+        s: ('0x' + currentSignature.slice(66, 130)) as `0x${string}`,
+        v: BigInt(parseInt(currentSignature.slice(130, 132), 16)),
+        yParity: parseInt(currentSignature.slice(130, 132), 16) === 27 ? 0 : 1,
+      }
+    : undefined
 
   return (
     <BitteWidgetChat
@@ -72,7 +90,7 @@ export function BitteChat(): ReactNode {
       historyApiUrl="/api/bitte/history"
       wallet={{
         evm: {
-          address: account,
+          address: checksummedAccount,
           chainId: chainId,
           // Type assertions needed due to incompatible types between CowSwap and BitteChat
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,14 +112,10 @@ export function BitteChat(): ReactNode {
           logoColor: '#000000',
         },
         widgetWelcomePrompts: {
-          questions: [
-            'What is CoW Swap?',
-            'How does CoW Protocol work?',
-            'What are the benefits of using CoW Swap?'
-          ],
+          questions: ['What is CoW Swap?', 'How does CoW Protocol work?', 'What are the benefits of using CoW Swap?'],
           actions: ['Swap tokens', 'Check price', 'View orders'],
         },
       }}
     />
   )
-} 
+}
