@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useState } from 'react'
+import { ReactNode, useCallback, useState, useEffect } from 'react'
 
 import { getChecksumAddressOrOriginal } from '@cowprotocol/common-utils'
 import { useSwitchNetwork, useWalletInfo } from '@cowprotocol/wallet'
@@ -18,14 +18,64 @@ export function BitteChat(): ReactNode {
   // Ensure address is properly checksummed for ethers.js compatibility
   const checksummedAccount = account ? getChecksumAddressOrOriginal(account) : undefined
 
+  // Validate that the checksummed account matches the provider's signer address
+  useEffect(() => {
+    if (!provider || !checksummedAccount) return
+
+    const validateAddress = async () => {
+      try {
+        const signer = provider.getSigner()
+        const signerAddress = await signer.getAddress()
+
+        if (checksummedAccount.toLowerCase() !== signerAddress.toLowerCase()) {
+          console.warn('Address mismatch detected:', {
+            checksummedAccount,
+            signerAddress,
+          })
+        } else {
+          console.log('Address validation passed:', checksummedAccount)
+        }
+      } catch (error) {
+        console.error('Address validation failed:', error)
+      }
+    }
+
+    validateAddress()
+  }, [provider, checksummedAccount])
+
   const handleSendTransaction = useCallback(
-    async (transaction: { to?: string; data?: string; value?: string; gasLimit?: string }) => {
+    async (transaction: { to?: string; data?: string; value?: string; gasLimit?: string; from?: string }) => {
       if (!provider) throw new Error('No provider available')
 
-      const signer = provider.getSigner()
-      const txResponse = await signer.sendTransaction(transaction)
-      setCurrentHash(txResponse.hash)
-      return txResponse.hash
+      try {
+        const signer = provider.getSigner()
+
+        // Get the signer's address to ensure consistency
+        const signerAddress = await signer.getAddress()
+
+        // Clean the transaction object - remove 'from' field and ensure addresses are checksummed
+        const cleanTransaction = {
+          to: transaction.to ? getChecksumAddressOrOriginal(transaction.to) : undefined,
+          data: transaction.data,
+          value: transaction.value,
+          gasLimit: transaction.gasLimit,
+          // Never include 'from' field - the signer will handle this automatically
+        }
+
+        // Remove undefined fields
+        const formattedTransaction = Object.fromEntries(
+          Object.entries(cleanTransaction).filter(([_, value]) => value !== undefined),
+        )
+
+        console.log('Sending transaction:', formattedTransaction, 'from signer:', signerAddress)
+
+        const txResponse = await signer.sendTransaction(formattedTransaction)
+        setCurrentHash(txResponse.hash)
+        return txResponse.hash
+      } catch (error) {
+        console.error('Transaction failed:', error)
+        throw error
+      }
     },
     [provider],
   )
@@ -41,10 +91,19 @@ export function BitteChat(): ReactNode {
     async (params: { message: string }) => {
       if (!provider) throw new Error('No provider available')
 
-      const signer = provider.getSigner()
-      const signature = await signer.signMessage(params.message)
-      setCurrentSignature(signature)
-      return signature
+      try {
+        const signer = provider.getSigner()
+        const signerAddress = await signer.getAddress()
+
+        console.log('Signing message:', params.message, 'from signer:', signerAddress)
+
+        const signature = await signer.signMessage(params.message)
+        setCurrentSignature(signature)
+        return signature
+      } catch (error) {
+        console.error('Message signing failed:', error)
+        throw error
+      }
     },
     [provider],
   )
@@ -53,18 +112,27 @@ export function BitteChat(): ReactNode {
     async (typedData: Record<string, unknown>) => {
       if (!provider) throw new Error('No provider available')
 
-      const signer = provider.getSigner()
-      // Type assertion needed for compatibility with ethers signer
-      const signature = await signer._signTypedData(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        typedData.domain as any,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        typedData.types as any,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        typedData.value as any,
-      )
-      setCurrentSignature(signature)
-      return signature
+      try {
+        const signer = provider.getSigner()
+        const signerAddress = await signer.getAddress()
+
+        console.log('Signing typed data:', typedData, 'from signer:', signerAddress)
+
+        // Type assertion needed for compatibility with ethers signer
+        const signature = await signer._signTypedData(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          typedData.domain as any,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          typedData.types as any,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          typedData.value as any,
+        )
+        setCurrentSignature(signature)
+        return signature
+      } catch (error) {
+        console.error('Typed data signing failed:', error)
+        throw error
+      }
     },
     [provider],
   )
