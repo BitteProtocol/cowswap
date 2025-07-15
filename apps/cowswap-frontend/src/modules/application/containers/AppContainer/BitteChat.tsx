@@ -182,6 +182,7 @@ export function BitteChat(): ReactNode {
           actions: ['Swap tokens', 'Check price', 'View orders'],
         },
       }}
+      isMarkdown={true}
     />
   )
 }
