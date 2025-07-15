@@ -159,7 +159,6 @@ export function BitteChat(): ReactNode {
         evm: {
           address: checksummedAccount,
           chainId: chainId,
-          // Type assertions needed due to incompatible types between CowSwap and BitteChat
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           sendTransaction: handleSendTransaction as any,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
