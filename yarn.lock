@@ -2443,16 +2443,16 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bitte-ai/chat@0.17.1":
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.17.1.tgz#f40d0b797ee502742d36c0649959dba20342add3"
-  integrity sha512-1brIBatmnJm2DS+ktQUyJgMsqe0wfhHn/gER6eQhG39krVBBaiA6Xmg+Ir5/eYRzB8l3rVqcQV23BKuVWTONTg==
+"@bitte-ai/chat@0.15.0-markdown-cow-swap-e16":
+  version "0.15.0-markdown-cow-swap-e16"
+  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.15.0-markdown-cow-swap-e16.tgz#891d37e36ae9d9477fc7af21486d6064dc19f9ab"
+  integrity sha512-36nv9Z7ih05bnBxneEIaJPEzebCkbkT2Zrssx4Or2yUS5tjB1p2kRExqSBNBJuRjIQhFwcwwSHIvATLg/im9/Q==
   dependencies:
     "@ai-sdk/anthropic" "^1.0.2"
     "@ai-sdk/openai" "^1.0.5"
     "@ai-sdk/react" "^1.2.12"
     "@ai-sdk/xai" "^1.0.4"
-    "@bitte-ai/types" "0.7.0"
+    "@bitte-ai/types" "0.7.0-beta.1"
     "@mintbase-js/data" "^0.6.5"
     "@mintbase-js/rpc" "^0.6.5"
     "@mysten/sui" "^1.26.0"
@@ -2480,6 +2480,8 @@
     react-lottie-player "^2.1.0"
     react-markdown "^9.0.1"
     recharts "^2.15.0"
+    rehype-highlight "^7.0.2"
+    rehype-raw "^7.0.0"
     remark-gfm "^4.0.0"
     remark-math "^6.0.0"
     swr "^2.3.3"
@@ -2490,10 +2492,10 @@
     wagmi "^2.15.6"
     zod "^3.24.1"
 
-"@bitte-ai/types@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@bitte-ai/types/-/types-0.7.0.tgz#8390316afb4cf708eea9bb107ae27e6f698f2881"
-  integrity sha512-aru3FOxHMCnpbiWaXtS+t2xygFJqhN/zq5K1qzPonnAYrcINda3lx3647ahf+SkMlKbo4ravINgBAlaNIbapAg==
+"@bitte-ai/types@0.7.0-beta.1":
+  version "0.7.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@bitte-ai/types/-/types-0.7.0-beta.1.tgz#8c14414c9c2de30e0743b4745eada3bc9df125b9"
+  integrity sha512-XpUEIrLPewOKAoJ6/aFUsB8xFpv2R0TzJQ4kOaP8I3dDFiUm7f3CbJiQtZ9hcFdF4m3MB3lt0iovDt0mm2L36w==
   dependencies:
     "@mysten/sui" "^1.26.0"
     "@near-wallet-selector/core" "^8.9.0"
@@ -21433,6 +21435,13 @@ hast-util-from-parse5@^8.0.0:
     vfile-location "^5.0.0"
     web-namespaces "^2.0.0"
 
+hast-util-is-element@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/hast-util-is-element/-/hast-util-is-element-3.0.0.tgz#6e31a6532c217e5b533848c7e52c9d9369ca0932"
+  integrity sha512-Val9mnv2IWpLbNPqc/pUem+a7Ipj2aHacCwgNfTiK0vJKl0LF+4Ba4+v1oPHFpf3bLYmreq0/l3Gud9S5OH42g==
+  dependencies:
+    "@types/hast" "^3.0.0"
+
 hast-util-parse-selector@^2.0.0:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/hast-util-parse-selector/-/hast-util-parse-selector-2.2.5.tgz#d57c23f4da16ae3c63b3b6ca4616683313499c3a"
@@ -21498,6 +21507,16 @@ hast-util-to-parse5@^8.0.0:
     web-namespaces "^2.0.0"
     zwitch "^2.0.0"
 
+hast-util-to-text@^4.0.0:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/hast-util-to-text/-/hast-util-to-text-4.0.2.tgz#57b676931e71bf9cb852453678495b3080bfae3e"
+  integrity sha512-KK6y/BN8lbaq654j7JgBydev7wuNMcID54lkRav1P0CaE1e47P72AWWPiGKXTJU271ooYzcvTAn/Zt0REnvc7A==
+  dependencies:
+    "@types/hast" "^3.0.0"
+    "@types/unist" "^3.0.0"
+    hast-util-is-element "^3.0.0"
+    unist-util-find-after "^5.0.0"
+
 hast-util-whitespace@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/hast-util-whitespace/-/hast-util-whitespace-3.0.0.tgz#7778ed9d3c92dd9e8c5c8f648a49c21fc51cb621"
@@ -21556,6 +21575,11 @@ highlight.js@^10.4.1, highlight.js@~10.7.0:
   version "10.7.3"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
+
+highlight.js@~11.11.0:
+  version "11.11.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.11.1.tgz#fca06fa0e5aeecf6c4d437239135fabc15213585"
+  integrity sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
@@ -25577,6 +25601,15 @@ lowlight@^1.17.0:
   dependencies:
     fault "^1.0.0"
     highlight.js "~10.7.0"
+
+lowlight@^3.0.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/lowlight/-/lowlight-3.3.0.tgz#007b8a5bfcfd27cc65b96246d2de3e9dd4e23c6c"
+  integrity sha512-0JNhgFoPvP6U6lE/UdVsSq99tn6DhjjpAj5MxG49ewd2mOBVtwWYIT8ClyABhq198aXXODMU6Ox8DrGy/CpTZQ==
+  dependencies:
+    "@types/hast" "^3.0.0"
+    devlop "^1.0.0"
+    highlight.js "~11.11.0"
 
 lru-cache@^10.0.1, lru-cache@^10.0.2:
   version "10.1.0"
@@ -30861,6 +30894,17 @@ regjsparser@^0.9.1:
   dependencies:
     jsesc "~0.5.0"
 
+rehype-highlight@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/rehype-highlight/-/rehype-highlight-7.0.2.tgz#997e05e3a336853f6f6b2cfc450c5dad0f960b07"
+  integrity sha512-k158pK7wdC2qL3M5NcZROZ2tR/l7zOzjxXd5VGdcfIyoijjQqpHd3JKtYSBDpDZ38UI2WJWuFAtkMDxmx5kstA==
+  dependencies:
+    "@types/hast" "^3.0.0"
+    hast-util-to-text "^4.0.0"
+    lowlight "^3.0.0"
+    unist-util-visit "^5.0.0"
+    vfile "^6.0.0"
+
 rehype-raw@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/rehype-raw/-/rehype-raw-7.0.0.tgz#59d7348fd5dbef3807bbaa1d443efd2dd85ecee4"
@@ -34345,6 +34389,14 @@ unique-string@^2.0.0:
   integrity sha512-uNaeirEPvpZWSgzwsPGtU2zVSTrn/8L5q/IexZmH0eH6SA73CmAA5U4GwORTxQAZs95TAXLNqeLoPPNO5gZfWg==
   dependencies:
     crypto-random-string "^2.0.0"
+
+unist-util-find-after@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/unist-util-find-after/-/unist-util-find-after-5.0.0.tgz#3fccc1b086b56f34c8b798e1ff90b5c54468e896"
+  integrity sha512-amQa0Ep2m6hE2g72AugUItjbuM8X8cGQnFoHk0pGfrFeT9GZhzN5SW8nRsiGKK7Aif4CrACPENkA6P/Lw6fHGQ==
+  dependencies:
+    "@types/unist" "^3.0.0"
+    unist-util-is "^6.0.0"
 
 unist-util-is@^6.0.0:
   version "6.0.0"
