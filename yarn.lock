@@ -2443,10 +2443,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bitte-ai/chat@0.15.0-markdown-cow-swap-e17":
-  version "0.15.0-markdown-cow-swap-e17"
-  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.15.0-markdown-cow-swap-e17.tgz#19227a621481291112d2ca3d36254a24806f689e"
-  integrity sha512-M9bJ9J21wLp6gzeVkxlZKaZ6WTx72P9dwtIwsNVtgdLuMO/piWNVUJQKjllZjFH3M8qFq6Zg/mmkz17MFGwcBA==
+"@bitte-ai/chat@0.15.0-markdown-cow-swap-e18":
+  version "0.15.0-markdown-cow-swap-e18"
+  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.15.0-markdown-cow-swap-e18.tgz#6f61950f79a81f6a023472e0eaeb5a2bf273e5b0"
+  integrity sha512-R59Zeob9L2nDX6ACmQw3cUEeRi6YNqOcbRmrFa8u20ddFzKmqCGddoH9vMwrD5E47tGos8E/dMqXFaA7MJG61w==
   dependencies:
     "@ai-sdk/anthropic" "^1.0.2"
     "@ai-sdk/openai" "^1.0.5"
