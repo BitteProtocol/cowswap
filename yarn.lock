@@ -2443,16 +2443,16 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bitte-ai/chat@0.15.0-markdown-cow-swap-e18":
-  version "0.15.0-markdown-cow-swap-e18"
-  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.15.0-markdown-cow-swap-e18.tgz#6f61950f79a81f6a023472e0eaeb5a2bf273e5b0"
-  integrity sha512-R59Zeob9L2nDX6ACmQw3cUEeRi6YNqOcbRmrFa8u20ddFzKmqCGddoH9vMwrD5E47tGos8E/dMqXFaA7MJG61w==
+"@bitte-ai/chat@0.19.1":
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.19.1.tgz#5555ba176dbc3b0f6c620e542e5bfa4ff7c2adb0"
+  integrity sha512-Z0WGzdfVCW+6GWE//KUecdfi73swqU7DUrvGacrFiZqZzwHMiOae6KwSsRtq2q4FSuo0bO+XU/GfIzbC2YdJ8w==
   dependencies:
     "@ai-sdk/anthropic" "^1.0.2"
     "@ai-sdk/openai" "^1.0.5"
     "@ai-sdk/react" "^1.2.12"
     "@ai-sdk/xai" "^1.0.4"
-    "@bitte-ai/types" "0.7.0-beta.1"
+    "@bitte-ai/types" "0.8.0"
     "@mintbase-js/data" "^0.6.5"
     "@mintbase-js/rpc" "^0.6.5"
     "@mysten/sui" "^1.26.0"
@@ -2492,10 +2492,10 @@
     wagmi "^2.15.6"
     zod "^3.24.1"
 
-"@bitte-ai/types@0.7.0-beta.1":
-  version "0.7.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@bitte-ai/types/-/types-0.7.0-beta.1.tgz#8c14414c9c2de30e0743b4745eada3bc9df125b9"
-  integrity sha512-XpUEIrLPewOKAoJ6/aFUsB8xFpv2R0TzJQ4kOaP8I3dDFiUm7f3CbJiQtZ9hcFdF4m3MB3lt0iovDt0mm2L36w==
+"@bitte-ai/types@0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@bitte-ai/types/-/types-0.8.0.tgz#3cdca066506db2fab86c518332ebc684c5f0184d"
+  integrity sha512-jSpBCkJlM4ULyPwt6Ju/LRkKh6fC8O9l1kz5E+aBah+POxh99lFeLV8XDcSjG3yJ5IHN8ucc9HJJbaqqIw+GBQ==
   dependencies:
     "@mysten/sui" "^1.26.0"
     "@near-wallet-selector/core" "^8.9.0"
