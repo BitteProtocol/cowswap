@@ -2443,10 +2443,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bitte-ai/chat@0.19.1":
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.19.1.tgz#5555ba176dbc3b0f6c620e542e5bfa4ff7c2adb0"
-  integrity sha512-Z0WGzdfVCW+6GWE//KUecdfi73swqU7DUrvGacrFiZqZzwHMiOae6KwSsRtq2q4FSuo0bO+XU/GfIzbC2YdJ8w==
+"@bitte-ai/chat@0.19.2":
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/@bitte-ai/chat/-/chat-0.19.2.tgz#825c8337e89dd4719d4563fef1de077ac7e54ea4"
+  integrity sha512-A8tocYPYZCDojKEkobNpztQnuhWy2upBkp3KUBHU9A9ohKNAqpx92/uq0oBO5M42xlr5p0wTnvHS3WoHbHRIdg==
   dependencies:
     "@ai-sdk/anthropic" "^1.0.2"
     "@ai-sdk/openai" "^1.0.5"
