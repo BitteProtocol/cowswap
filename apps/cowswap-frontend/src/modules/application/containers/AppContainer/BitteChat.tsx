@@ -16,6 +16,7 @@ export function BitteChat(): ReactNode {
   const switchNetwork = useSwitchNetwork()
 
   const [currentSignature, setCurrentSignature] = useState<string | undefined>()
+  const [txHash, setTxHash] = useState<string | undefined>()
 
   // Ensure address is properly checksummed for ethers.js compatibility
   const checksummedAccount = account ? getChecksumAddressOrOriginal(account) : undefined
@@ -67,6 +68,8 @@ export function BitteChat(): ReactNode {
         )
 
         const txResponse = await signer.sendTransaction(formattedTransaction)
+
+        setTxHash(txResponse.hash)
 
         return txResponse.hash
       } catch (error) {
@@ -169,6 +172,7 @@ export function BitteChat(): ReactNode {
           signTypedData: handleSignTypedData as any,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           signature: parsedSignature as any,
+          hash: txHash,
         },
       }}
       widget={{
